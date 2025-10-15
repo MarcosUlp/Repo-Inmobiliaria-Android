@@ -14,7 +14,6 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private LoginViewModel viewModel;
 
-    // NO necesitamos SessionManager ni ninguna otra variable de lógica aquí.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,17 +23,17 @@ public class LoginActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        // 1. Observar el estado de login
+        //Observa estado de login
         observeLoginState();
 
-        // 2. Revisar si ya hay sesión activa
+        //Revisa si hay sesión activa
         viewModel.checkSession();
 
         binding.btnLogin.setOnClickListener(v -> {
             String usuario = binding.etEmail.getText().toString().trim();
             String clave = binding.etPassword.getText().toString().trim();
 
-            // 3. Pasar datos al ViewModel
+            //Pasa datos al ViewModel
             viewModel.login(usuario, clave);
         });
     }
@@ -45,10 +44,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void observeLoginState() {
-        // La Activity solo observa un booleano para navegar.
-        // El ViewModel ya decidió, guardó la sesión y mostró el Toast.
+        // La Activity observa un booleano para navegar.
+        // El ViewModel decidió, guardó sesión y mostró Toast.
         viewModel.getLogin().observe(this, loggedIn -> {
-            // Este 'if' es solo control de flujo para ejecutar la navegación.
+
+            //control de flujo para ejecutar la navegación.
             if (loggedIn) {
                 navigateToMain();
             }
