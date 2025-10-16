@@ -20,7 +20,7 @@ public class SessionManager {
         return prefs.getString(KEY_TOKEN, null);
     }
 
-    public void clear() {
-        prefs.edit().clear().apply();
+    public void clearSession() {
+        prefs.edit().remove(KEY_TOKEN).apply();
     }
 }
