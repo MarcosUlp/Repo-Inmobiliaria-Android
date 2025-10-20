@@ -21,84 +21,102 @@ public class GalleryFragment extends Fragment {
     private boolean isEditing = false;
     private FloatingActionButton fabEdit;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        // Inicializa el ViewModel
-        viewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
 
+        // 1️⃣ Vincular layout
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // 2️⃣ Inicializar ViewModel
+        viewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
+
+        // 3️⃣ Configurar FloatingActionButton
         fabEdit = binding.fabEdit;
-
-        // 1. Configurar Observador
-        viewModel.getPropietario().observe(getViewLifecycleOwner(), this::updateUI);
-
-        // 2. Configurar el botón de Edición
         fabEdit.setOnClickListener(v -> toggleEditMode());
 
-        // Inicia en modo lectura
+        // 4️⃣ Observar los datos del perfil
+        viewModel.getPropietario().observe(getViewLifecycleOwner(), propietario -> {
+            if (propietario != null) {
+                updateUI(propietario);
+            } else {
+                Toast.makeText(requireContext(), "No se pudo cargar el perfil", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // 5️⃣ Iniciar en modo lectura
         setEditable(false);
 
         return root;
     }
 
+    // --------------------------------------------------
+    // Actualiza los campos de texto en la vista
+    // --------------------------------------------------
     private void updateUI(Propietario propietario) {
-        if (propietario != null) {
-            // Rellenar campos con los datos del propietario
-            binding.etNombre.setText(propietario.getNombre());
-            binding.etApellido.setText(propietario.getApellido());
-            binding.etDni.setText(propietario.getDni()); // DNI siempre se muestra
-            binding.etTelefono.setText(propietario.getTelefono());
-            binding.etEmail.setText(propietario.getEmail()); // Email siempre se muestra
-        } else {
-            // Manejo de error o perfil vacío (el ViewModel ya muestra un Toast)
-        }
+        binding.etNombre.setText(propietario.getNombre());
+        binding.etApellido.setText(propietario.getApellido());
+        binding.etDni.setText(propietario.getDni());
+        binding.etTelefono.setText(propietario.getTelefono());
+        binding.etEmail.setText(propietario.getEmail());
     }
 
+    // --------------------------------------------------
+    // Activa/desactiva modo edición
+    // --------------------------------------------------
     private void toggleEditMode() {
         if (isEditing) {
-            // Estábamos editando, ahora GUARDAR
+            // Guardar cambios
             saveChanges();
-            fabEdit.setImageResource(android.R.drawable.ic_menu_edit); // Cambia a ícono de edición
+            fabEdit.setImageResource(android.R.drawable.ic_menu_edit);
         } else {
-            // Estábamos en lectura, ahora EDITAR
-            fabEdit.setImageResource(android.R.drawable.ic_menu_save); // Cambia a ícono de guardar
+            // Cambiar a modo edición
+            fabEdit.setImageResource(android.R.drawable.ic_menu_save);
         }
+
         isEditing = !isEditing;
         setEditable(isEditing);
     }
 
+    // --------------------------------------------------
+    // Habilita o bloquea campos editables
+    // --------------------------------------------------
     private void setEditable(boolean editable) {
-        // Habilita/deshabilita los campos editables
         binding.etNombre.setEnabled(editable);
         binding.etApellido.setEnabled(editable);
         binding.etTelefono.setEnabled(editable);
-        // DNI y Email permanecen inalterables (por lo general, son las claves de usuario)
+        // DNI y Email quedan bloqueados (no deben cambiarse)
     }
 
+    // --------------------------------------------------
+    // Guarda los cambios realizados
+    // --------------------------------------------------
     private void saveChanges() {
         Propietario currentPropietario = viewModel.getPropietario().getValue();
 
-        if (currentPropietario != null) {
-            // 1. Recolectar datos editables de la UI
-            String nombre = binding.etNombre.getText().toString();
-            String apellido = binding.etApellido.getText().toString();
-            String telefono = binding.etTelefono.getText().toString();
-
-            // 2. Crear un objeto Propietario con los datos editados
-            Propietario updatedPropietario = new Propietario(
-                    currentPropietario.getId(),
-                    nombre,
-                    apellido,
-                    currentPropietario.getDni(), // Mantiene el DNI
-                    telefono,
-                    currentPropietario.getEmail() // Mantiene el Email
-            );
-
-            // 3. Llamar a la lógica del ViewModel
-            viewModel.saveProfile(updatedPropietario);
+        if (currentPropietario == null) {
+            Toast.makeText(requireContext(), "No se pudo guardar, perfil vacío.", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        // Tomar datos del formulario
+        String nombre = binding.etNombre.getText().toString().trim();
+        String apellido = binding.etApellido.getText().toString().trim();
+        String telefono = binding.etTelefono.getText().toString().trim();
+
+        // Crear nuevo objeto con los cambios
+        Propietario updatedPropietario = new Propietario(
+                currentPropietario.getId(),
+                nombre,
+                apellido,
+                currentPropietario.getDni(),
+                telefono,
+                currentPropietario.getEmail()
+        );
+
+        // Guardar usando ViewModel
+        viewModel.saveProfile(updatedPropietario);
     }
 
     @Override

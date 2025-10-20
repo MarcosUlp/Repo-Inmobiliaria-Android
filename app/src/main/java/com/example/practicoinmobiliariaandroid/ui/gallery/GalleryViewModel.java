@@ -12,13 +12,13 @@ import com.example.practicoinmobiliariaandroid.data.model.Propietario;
 import com.example.practicoinmobiliariaandroid.data.repository.ProfileRepository;
 
 public class GalleryViewModel extends AndroidViewModel {
-    private final ProfileRepository profileRepository;
-    private final MutableLiveData<Propietario> propietarioLiveData;
+
+    private final ProfileRepository repository;
+    private final MutableLiveData<Propietario> propietarioLiveData = new MutableLiveData<>();
 
     public GalleryViewModel(@NonNull Application application) {
         super(application);
-        profileRepository = new ProfileRepository(application);
-        propietarioLiveData = new MutableLiveData<>();
+        repository = new ProfileRepository(application);
         loadProfile();
     }
 
@@ -26,25 +26,38 @@ public class GalleryViewModel extends AndroidViewModel {
         return propietarioLiveData;
     }
 
-    // Carga el perfil al iniciar el Fragment
+    // ---------------------------------------------------
+    // Carga inicial del perfil
+    // ---------------------------------------------------
     public void loadProfile() {
-        profileRepository.getProfile().observeForever(propietario -> {
-            propietarioLiveData.setValue(propietario);
-            if (propietario == null) {
-                // Mensaje solo si el valor es nulo (error de carga o sesión)
-                Toast.makeText(getApplication(), "Error al cargar el perfil o sesión expirada.", Toast.LENGTH_LONG).show();
+        repository.getProfile(new ProfileRepository.ProfileCallback() {
+            @Override
+            public void onSuccess(Propietario propietario) {
+                propietarioLiveData.postValue(propietario);
+            }
+
+            @Override
+            public void onError(String error) {
+                propietarioLiveData.postValue(null);
+                Toast.makeText(getApplication(), "Error al cargar perfil: " + error, Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    // Lógica para guardar los cambios del perfil
+    // ---------------------------------------------------
+    // Guardar cambios en el perfil
+    // ---------------------------------------------------
     public void saveProfile(Propietario propietario) {
-        profileRepository.updateProfile(propietario).observeForever(updatedPropietario -> {
-            if (updatedPropietario != null) {
-                propietarioLiveData.setValue(updatedPropietario);
-                Toast.makeText(getApplication(), "Perfil actualizado con éxito.", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplication(), "Fallo la actualización del perfil.", Toast.LENGTH_SHORT).show();
+        repository.updateProfile(propietario, new ProfileRepository.ProfileCallback() {
+            @Override
+            public void onSuccess(Propietario propietarioActualizado) {
+                propietarioLiveData.postValue(propietarioActualizado);
+                Toast.makeText(getApplication(), "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(getApplication(), "Error al actualizar: " + error, Toast.LENGTH_LONG).show();
             }
         });
     }

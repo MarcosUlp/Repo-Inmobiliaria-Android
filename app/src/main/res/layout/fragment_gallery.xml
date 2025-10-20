@@ -88,7 +88,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:hint="Email">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
@@ -98,19 +98,19 @@
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- NOTA: Botón de cambiar clave iría aquí si fuera en este fragmento. -->
+            <!-- Botón de Editar debajo del último campo -->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                app:srcCompat="@android:drawable/ic_menu_edit"
+                android:contentDescription="Editar Perfil"
+                app:backgroundTint="@color/teal_700"
+                app:tint="@android:color/white" />
 
         </LinearLayout>
     </ScrollView>
-
-    <!-- Botón Flotante para Editar/Guardar -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_menu_edit"
-        android:contentDescription="Editar Perfil" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

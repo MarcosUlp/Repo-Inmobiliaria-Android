@@ -28,7 +28,7 @@ public class Propietario implements Serializable {
         this.dni = dni;
         this.telefono = telefono;
         this.email = email;
-        this.clave = clave; // Aunque no se usa para PUT, se incluye para completar el objeto
+        this.clave = clave; // se incluye para completar el objeto
     }
 
     public Propietario(int id, String nombre, String apellido, String dni, String telefono, String email) {
