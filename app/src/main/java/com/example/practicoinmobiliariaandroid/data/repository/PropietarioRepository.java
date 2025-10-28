@@ -1,4 +1,3 @@
-// Archivo: PropietarioRepository.java
 
 package com.example.practicoinmobiliariaandroid.data.repository;
 
@@ -13,19 +12,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PropietarioRepository {
-    // Ya no necesitas 'private ApiService apiService;'
-    // Lo obtenemos en cada llamada o lo inicializamos en el constructor.
 
     // 💡 Inicializamos la interfaz de servicio directamente
     private final ApiClient.ApiService apiService;
 
     public PropietarioRepository() {
-        // CORRECCIÓN: Usamos el método corregido para obtener la interfaz
+
         this.apiService = ApiClient.getClient();
     }
 
     public MutableLiveData<String> login(String usuario, String clave) {
-        // ... (el resto del método login está correcto)
+
         MutableLiveData<String> tokenLiveData = new MutableLiveData<>();
 
         apiService.login(usuario, clave).enqueue(new Callback<String>() {

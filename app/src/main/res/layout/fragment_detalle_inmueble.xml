@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F8F8F8"
+    tools:context=".ui.inmuebles.DetalleInmuebleFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- TÍTULO DE LA VISTA -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detalle del Inmueble"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- IMAGEN DEL INMUEBLE (Mejor posicionada) -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginBottom="24dp"
+            android:elevation="8dp">
+
+            <ImageView
+                android:id="@+id/imgInmueble"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:contentDescription="Imagen del inmueble"
+                tools:src="@tools:sample/backgrounds/scenic" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- CONTENEDOR DE DATOS (Estilo Ficha) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/rounded_corner_card"
+            android:elevation="2dp">
+
+            <!-- ID -->
+            <LinearLayout style="@style/DetailRowStyle">
+                <TextView style="@style/DetailLabel" android:text="ID:" />
+                <TextView android:id="@+id/tvIdInmueble" style="@style/DetailValue" tools:text="12345" />
+            </LinearLayout>
+
+            <!-- DIRECCIÓN -->
+            <LinearLayout style="@style/DetailRowStyle">
+                <TextView style="@style/DetailLabel" android:text="Dirección:" />
+                <TextView android:id="@+id/tvDireccionI" style="@style/DetailValue" tools:text="Av. Siempre Viva 742" />
+            </LinearLayout>
+
+            <!-- USO -->
+            <LinearLayout style="@style/DetailRowStyle">
+                <TextView style="@style/DetailLabel" android:text="Uso:" />
+                <TextView android:id="@+id/tvUsoI" style="@style/DetailValue" tools:text="Residencial" />
+            </LinearLayout>
+
+            <!-- AMBIENTES -->
+            <LinearLayout style="@style/DetailRowStyle">
+                <TextView style="@style/DetailLabel" android:text="Ambientes:" />
+                <TextView android:id="@+id/tvAmbientesI" style="@style/DetailValue" tools:text="3" />
+            </LinearLayout>
+
+            <!-- LATITUD -->
+            <LinearLayout style="@style/DetailRowStyle">
+                <TextView style="@style/DetailLabel" android:text="Latitud:" />
+                <TextView android:id="@+id/tvLatitudI" style="@style/DetailValue" tools:text="45.12345" />
+            </LinearLayout>
+
+            <!-- LONGITUD -->
+            <LinearLayout style="@style/DetailRowStyle">
+                <TextView style="@style/DetailLabel" android:text="Longitud:" />
+                <TextView android:id="@+id/tvLongitudI" style="@style/DetailValue" tools:text="-93.12345" />
+            </LinearLayout>
+
+            <!-- VALOR -->
+            <LinearLayout style="@style/DetailRowStyle">
+                <TextView style="@style/DetailLabel" android:text="Valor: $" android:textStyle="bold" android:textSize="18sp" android:textColor="#007AFF"/>
+                <TextView android:id="@+id/tvValorI" style="@style/DetailValue" tools:text="120,000" android:textStyle="bold" android:textSize="18sp" android:textColor="#007AFF"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- CHECKBOX DISPONIBLE -->
+        <CheckBox
+            android:id="@+id/checkDisponible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Disponible para Alquiler"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:enabled="false"
+            android:buttonTint="#007AFF"
+            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+            android:layout_gravity="center_horizontal"/>
+
+
+    </LinearLayout>
+</ScrollView>

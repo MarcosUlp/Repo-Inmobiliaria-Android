@@ -23,11 +23,11 @@ public class LoginViewModel extends AndroidViewModel {
         this.repository = new PropietarioRepository();
         this.sessionManager = new SessionManager(application.getApplicationContext());
     }
-
+    //si esta logeado es true, si no esta logueado es false
     public LiveData<Boolean> getLogin() {
         return mLogin;
     }
-
+    //chequear si hay sesion activa
     public void checkSession() {
         if (sessionManager.getToken() != null) {
             mLogin.setValue(true);

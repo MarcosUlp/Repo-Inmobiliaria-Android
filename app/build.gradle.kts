@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -35,7 +36,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
@@ -46,6 +46,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.scalars)
     implementation(libs.converter.gson)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
+    implementation(libs.glide)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

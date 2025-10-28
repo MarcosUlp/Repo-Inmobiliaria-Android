@@ -22,4 +22,24 @@
         android:name="com.example.practicoinmobiliariaandroid.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_inquilinos"
         tools:layout="@layout/fragment_slideshow" />
+
+    <!-- FRAGMENTO DE INMUEBLE VINCULADO -->
+    <fragment
+        android:id="@+id/nav_inmueble"
+        android:name="com.example.practicoinmobiliariaandroid.ui.inmuebles.InmuebleFragment"
+        android:label="@string/menu_inmuebles"
+        tools:layout="@layout/fragment_inmueble" />
+    <fragment
+        android:id="@+id/nav_detalle_inmueble"
+        android:name="com.example.practicoinmobiliariaandroid.ui.inmuebles.DetalleInmuebleFragment"
+        android:label="Detalle del Inmueble"
+        tools:layout="@layout/fragment_detalle_inmueble">
+
+        <argument
+            android:name="inmuebleData"
+            app:argType="com.example.practicoinmobiliariaandroid.data.model.Inmueble"
+            app:nullable="false" />
+
+    </fragment>F
+
 </navigation>

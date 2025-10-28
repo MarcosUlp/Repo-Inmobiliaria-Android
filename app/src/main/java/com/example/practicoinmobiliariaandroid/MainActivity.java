@@ -107,9 +107,4 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    // ELIMINADO: Ya no necesitamos el método onNavigationItemSelected
-    // @Override
-    // public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-    //    ... (código anterior) ...
-    // }
 }

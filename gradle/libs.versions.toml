@@ -10,9 +10,12 @@ lifecycleLivedataKtx = "2.9.4"
 lifecycleViewmodelKtx = "2.9.4"
 navigationFragment = "2.9.5"
 navigationUi = "2.9.5"
-# 1. CORREGIDO: Versión oficial estable de Retrofit es 2.9.0
 retrofit = "3.0.0"
 converterGson = "3.0.0" # Aseguramos que la versión de Gson coincida con Retrofit
+maps_play_services = "19.2.0"
+playServicesMaps = "19.2.0"
+playServicesLocation = "21.3.0"
+glide = "4.16.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -29,6 +32,9 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "converterGson" }
 # 2. ✨ AGREGADO: Dependencia para el conversor de escalares
 converter-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit" }
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

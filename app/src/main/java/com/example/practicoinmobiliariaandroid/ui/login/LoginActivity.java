@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    //mover a viewModel
     private void observeLoginState() {
         // La Activity observa un booleano para navegar.
         // El ViewModel decidió, guardó sesión y mostró Toast.

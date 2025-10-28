@@ -29,7 +29,6 @@ public class ProfileRepository {
     // ----------------------------------------
     // Obtener perfil
     // ----------------------------------------
-    //esto ya lo hago en apiSerice, hay redundancia o estoy llamando 2 metodos para lo mismo?
 
     public void getProfile(ProfileCallback callback) {
         String token = sessionManager.getToken();
@@ -56,9 +55,7 @@ public class ProfileRepository {
         });
     }
 
-    // ----------------------------------------
     // Actualizar perfil
-    // ----------------------------------------
     public void updateProfile(Propietario propietario, ProfileCallback callback) {
         String token = sessionManager.getToken();
         if (token == null) {

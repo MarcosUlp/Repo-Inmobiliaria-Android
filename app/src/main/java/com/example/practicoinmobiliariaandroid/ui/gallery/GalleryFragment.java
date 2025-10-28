@@ -25,21 +25,23 @@ public class GalleryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        // 1️⃣ Vincular layout
+        // vincular e layout
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // 2️⃣ Inicializar ViewModel
+        // 1nicializar ViewModel
         viewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
 
-        // 3️⃣ Configurar FloatingActionButton
+        // configurar boton flotante
         fabEdit = binding.fabEdit;
         fabEdit.setOnClickListener(v -> toggleEditMode());
 
-        // 4️⃣ Observar los datos del perfil
+        // observa  datos del perfil
         viewModel.getPropietario().observe(getViewLifecycleOwner(), propietario -> {
+            //el if es irrelevante porque se maneja del lado del repository
             if (propietario != null) {
                 updateUI(propietario);
+                //el contenido de updateUI tendria que estar acá
             } else {
                 Toast.makeText(requireContext(), "No se pudo cargar el perfil", Toast.LENGTH_SHORT).show();
             }
@@ -51,9 +53,8 @@ public class GalleryFragment extends Fragment {
         return root;
     }
 
-    // --------------------------------------------------
     // Actualiza los campos de texto en la vista
-    // --------------------------------------------------
+
     private void updateUI(Propietario propietario) {
         binding.etNombre.setText(propietario.getNombre());
         binding.etApellido.setText(propietario.getApellido());
@@ -62,9 +63,9 @@ public class GalleryFragment extends Fragment {
         binding.etEmail.setText(propietario.getEmail());
     }
 
-    // --------------------------------------------------
-    // Activa/desactiva modo edición
-    // --------------------------------------------------
+    // botoncito activar/desactivar modo edición
+    // el toggle se podria manejar del lado del viewmodel?
+
     private void toggleEditMode() {
         if (isEditing) {
             // Guardar cambios
@@ -80,13 +81,13 @@ public class GalleryFragment extends Fragment {
     }
 
     // --------------------------------------------------
-    // Habilita o bloquea campos editables
+    // habilita o bloquea campos editables
     // --------------------------------------------------
     private void setEditable(boolean editable) {
         binding.etNombre.setEnabled(editable);
         binding.etApellido.setEnabled(editable);
         binding.etTelefono.setEnabled(editable);
-        // DNI y Email quedan bloqueados (no deben cambiarse)
+        // DNI y Email quedan bloqueados (no deberian poder cambiarse)
     }
 
     // --------------------------------------------------

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="frameLayout" type="id" />
+    <item name="tvInfoCodigo" type="id" />
+    <item name="tvIdInmueble" type="id" />
+    <item name="tvInfoDireccion" type="id" />
+    <item name="tvDireccionI" type="id" />
+    <item name="tvInfoUso" type="id" />
+    <item name="tvUsoI" type="id" />
+    <item name="tvInfoAmbientesI" type="id" />
+    <item name="tvInfoLatitud" type="id" />
+    <item name="tvAmbientesI" type="id" />
+    <item name="tvLatitudI" type="id" />
+    <item name="tvInfoLongitud" type="id" />
+    <item name="tvLongitudI" type="id" />
+    <item name="tvValorI" type="id" />
+    <item name="tvInfoValor" type="id" />
+    <item name="checkDisponible" type="id" />
+</resources>
