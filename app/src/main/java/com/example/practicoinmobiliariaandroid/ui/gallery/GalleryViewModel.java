@@ -31,7 +31,7 @@ public class GalleryViewModel extends AndroidViewModel {
     // ---------------------------------------------------
     public void loadProfile() {
         repository.getProfile(new ProfileRepository.ProfileCallback() {
-            //aca ya se maneja el error
+
             @Override
             public void onSuccess(Propietario propietario) {
                 propietarioLiveData.postValue(propietario);

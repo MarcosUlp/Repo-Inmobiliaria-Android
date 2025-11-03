@@ -4,15 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.practicoinmobiliariaandroid.R;
-import com.example.practicoinmobiliariaandroid.databinding.FragmentHomeBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,9 +42,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         return root;
     }
 
-    /**
-     * Este método se ejecuta cuando el mapa está listo.
-     */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;

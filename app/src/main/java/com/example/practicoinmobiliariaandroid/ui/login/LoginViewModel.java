@@ -41,7 +41,7 @@ public class LoginViewModel extends AndroidViewModel {
             return;
         }
 
-        // ✅ LLAMAMOS AL REPOSITORY (no directamente a Retrofit)
+        // LLAMAMOS AL REPOSITORY (no directamente a Retrofit)
         repository.login(usuario, clave).observeForever(token -> {
             if (token != null) {
                 sessionManager.saveToken(token);

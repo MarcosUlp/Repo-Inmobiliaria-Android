@@ -26,12 +26,12 @@ import retrofit2.http.Part;
 
 public class ApiClient {
     //aca vamos a configurar la conexion a la api
-    private static final String BASE_URL = "https://inmobiliariaulp-amb5hwfqaraweyga.canadacentral-01.azurewebsites.net"; // la que te den
+    private static final String BASE_URL = "https://inmobiliariaulp-amb5hwfqaraweyga.canadacentral-01.azurewebsites.net";
     private static Retrofit retrofit;
 
     //constructor: al implementar "static" hace que puedas llamar al metodo directamente con (apiClient.getClient)
     //sin necesidad de crear un objeto ApiClient
-
+    //get client metodo estatico que utiliza patron Singleton
     public static ApiService getClient() {
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -48,6 +48,8 @@ public class ApiClient {
         return retrofit.create(ApiService.class);
     }
 
+    //Define firmas de las llamadas a la api, anotaciones @get, @Post @Header, esto le dice a retrofit
+    //como construir la solicitud http
     public interface ApiService {
         // --- AUTENTICACIÓN ---
         @FormUrlEncoded

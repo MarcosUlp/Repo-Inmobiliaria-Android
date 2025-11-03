@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.practicoinmobiliariaandroid.R;
-import com.example.practicoinmobiliariaandroid.data.api.ApiClient; // Esta importación no se usa, pero no causa error
 import com.example.practicoinmobiliariaandroid.data.model.Inmueble;
 
 import java.util.List;
@@ -41,15 +40,13 @@ public class InmuebleAdapter extends RecyclerView.Adapter<InmuebleAdapter.Inmueb
         Inmueble i = lista.get(position);
         holder.tvDireccion.setText(i.getDireccion());
         holder.tvTipo.setText(i.getTipo());
-        // Nota: Asegúrate de que getValor() devuelve un tipo que se puede convertir a String.
-        // Si es un primitivo como 'int' o 'double', String.valueOf() está bien.
         holder.tvPrecio.setText("$"+String.valueOf(i.getValor()));
 
         Glide.with(context)
                 .load(urlBase + i.getImagen())
                 .placeholder(R.drawable.inmueble_defecto)
                 // Usar un recurso para el error es mejor que un string "null"
-                .error(R.drawable.inmueble_defecto)
+                .error("null")
                 .into(holder.imgInmueble);
 
         // IMPLEMENTACIÓN DEL CLICK LISTENER

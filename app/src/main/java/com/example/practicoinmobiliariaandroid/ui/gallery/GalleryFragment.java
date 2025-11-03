@@ -29,19 +29,18 @@ public class GalleryFragment extends Fragment {
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // 1nicializar ViewModel
+        // inicializar ViewModel, provider hace que sobreviva a rotaciones de pantalla
+
         viewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
 
         // configurar boton flotante
         fabEdit = binding.fabEdit;
         fabEdit.setOnClickListener(v -> toggleEditMode());
 
-        // observa  datos del perfil
+        // observa  datos del perfil, esta funcion se ejecuta automaticamente llamando a updateUI
         viewModel.getPropietario().observe(getViewLifecycleOwner(), propietario -> {
-            //el if es irrelevante porque se maneja del lado del repository
             if (propietario != null) {
                 updateUI(propietario);
-                //el contenido de updateUI tendria que estar acá
             } else {
                 Toast.makeText(requireContext(), "No se pudo cargar el perfil", Toast.LENGTH_SHORT).show();
             }
@@ -53,7 +52,7 @@ public class GalleryFragment extends Fragment {
         return root;
     }
 
-    // Actualiza los campos de texto en la vista
+    // Actualiza/refleja los campos de texto en la vista
 
     private void updateUI(Propietario propietario) {
         binding.etNombre.setText(propietario.getNombre());
@@ -64,6 +63,8 @@ public class GalleryFragment extends Fragment {
     }
 
     // botoncito activar/desactivar modo edición
+    //esto reacciona al boton flotante de editar/guardar,
+    //cambia el estado y el icono del "fab" un lapicito o disquete
     // el toggle se podria manejar del lado del viewmodel?
 
     private void toggleEditMode() {
@@ -80,9 +81,9 @@ public class GalleryFragment extends Fragment {
         setEditable(isEditing);
     }
 
-    // --------------------------------------------------
+
     // habilita o bloquea campos editables
-    // --------------------------------------------------
+
     private void setEditable(boolean editable) {
         binding.etNombre.setEnabled(editable);
         binding.etApellido.setEnabled(editable);
@@ -90,23 +91,23 @@ public class GalleryFragment extends Fragment {
         // DNI y Email quedan bloqueados (no deberian poder cambiarse)
     }
 
-    // --------------------------------------------------
     // Guarda los cambios realizados
-    // --------------------------------------------------
+
     private void saveChanges() {
         Propietario currentPropietario = viewModel.getPropietario().getValue();
-
+        //este if de verificacion solo se fija que no venga un objeto null
+        //FALTA VERIFICAR QUE NO LLEGUEN CAMPOS VACIOS, no me deberia dejar poner un propietario sin nombre.ej
         if (currentPropietario == null) {
             Toast.makeText(requireContext(), "No se pudo guardar, perfil vacío.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Tomar datos del formulario
+        // aca toma los datos a editar
         String nombre = binding.etNombre.getText().toString().trim();
         String apellido = binding.etApellido.getText().toString().trim();
         String telefono = binding.etTelefono.getText().toString().trim();
 
-        // Crear nuevo objeto con los cambios
+        // Crear nuevo objeto propietario conbinando los datos editables con los inmutables
         Propietario updatedPropietario = new Propietario(
                 currentPropietario.getId(),
                 nombre,
@@ -116,7 +117,7 @@ public class GalleryFragment extends Fragment {
                 currentPropietario.getEmail()
         );
 
-        // Guardar usando ViewModel
+        // Manda el "nuevo" propietario para el viewModel
         viewModel.saveProfile(updatedPropietario);
     }
 

@@ -45,9 +45,6 @@ public class DetalleInmuebleFragment extends Fragment {
                 binding.tvAmbientesI.setText(String.valueOf(inmueble.getAmbientes()));
                 binding.tvLatitudI.setText(String.valueOf(inmueble.getLatitud()));
 
-                // CORRECCIÓN: Tu modelo actual no tiene 'longitud'. Esta línea está comentada
-                // para evitar el error de compilación. Debes agregar 'longitud' al modelo.
-                // binding.tvLongitudI.setText(String.valueOf(inmueble.getLongitud()));
 
                 // Formatear el valor con separador de miles si es necesario
                 binding.tvValorI.setText("$" + String.format("%,.2f", inmueble.getValor()));
