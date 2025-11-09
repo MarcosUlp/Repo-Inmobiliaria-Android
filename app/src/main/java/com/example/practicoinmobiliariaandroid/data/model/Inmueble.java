@@ -8,19 +8,43 @@ public class Inmueble implements Serializable {
     private String tipo;
     private String uso;
     private int ambientes;
-    private double superficie;
+    private int superficie;
     private double latitud;
+    private double longitud; // ✨ AÑADIDO
     private double valor;
     private String imagen;
-    private boolean disponible;
+    private Boolean disponible;
     private int idPropietario;
     private Propietario duenio;
+    private boolean tieneContratoVigente; // ✨ AÑADIDO
 
     public Inmueble(int idInmueble) {
         this.idInmueble = idInmueble;
     }
+    public Inmueble() {
+        // Constructor vacío necesario para Retrofit / Gson / uso manual
+    }
 
-    public Inmueble(int idInmueble, String direccion, String tipo, String uso, int ambientes, double superficie, double latitud, double valor, String imagen, boolean disponible, int idPropietario, Propietario duenio) {
+    // Constructor completo actualizado
+    public Inmueble(int idInmueble, String direccion, String tipo, String uso, int ambientes, int superficie, double latitud, double longitud, double valor, String imagen, boolean disponible, int idPropietario, Propietario duenio, boolean tieneContratoVigente) {
+        this.idInmueble = idInmueble;
+        this.direccion = direccion;
+        this.tipo = tipo;
+        this.uso = uso;
+        this.ambientes = ambientes;
+        this.superficie = superficie;
+        this.latitud = latitud;
+        this.longitud = longitud; // Añadido
+        this.valor = valor;
+        this.imagen = imagen;
+        this.disponible = disponible;
+        this.idPropietario = idPropietario;
+        this.duenio = duenio;
+        this.tieneContratoVigente = tieneContratoVigente; // Añadido
+    }
+
+    // Constructor anterior (ajustado para compatibilidad si el código antiguo lo usa)
+    public Inmueble(int idInmueble, String direccion, String tipo, String uso, int ambientes, int superficie, double latitud, double valor, String imagen, boolean disponible, int idPropietario, Propietario duenio) {
         this.idInmueble = idInmueble;
         this.direccion = direccion;
         this.tipo = tipo;
@@ -33,6 +57,9 @@ public class Inmueble implements Serializable {
         this.disponible = disponible;
         this.idPropietario = idPropietario;
         this.duenio = duenio;
+        // Asumimos valores por defecto para los campos nuevos en este constructor antiguo
+        this.longitud = 0.0;
+        this.tieneContratoVigente = false;
     }
 
     public int getIdInmueble() {
@@ -75,11 +102,11 @@ public class Inmueble implements Serializable {
         this.ambientes = ambientes;
     }
 
-    public double getSuperficie() {
+    public int getSuperficie() {
         return superficie;
     }
 
-    public void setSuperficie(double superficie) {
+    public void setSuperficie(int superficie) {
         this.superficie = superficie;
     }
 
@@ -90,6 +117,16 @@ public class Inmueble implements Serializable {
     public void setLatitud(double latitud) {
         this.latitud = latitud;
     }
+
+    // ✨ AÑADIDO: Getter y Setter para longitud
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+    // FIN AÑADIDO para longitud
 
     public double getValor() {
         return valor;
@@ -130,4 +167,13 @@ public class Inmueble implements Serializable {
     public void setDuenio(Propietario duenio) {
         this.duenio = duenio;
     }
+
+    public boolean isTieneContratoVigente() {
+        return tieneContratoVigente;
+    }
+
+    public void setTieneContratoVigente(boolean tieneContratoVigente) {
+        this.tieneContratoVigente = tieneContratoVigente;
+    }
+
 }

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F8F8F8"
+    tools:context=".ui.contratos.DetalleContratoFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detalle del Contrato"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- SECCIÓN DETALLE DEL CONTRATO -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            android:layout_marginBottom="20dp"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Información General"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#007AFF"
+                    android:layout_marginBottom="12dp"/>
+
+                <LinearLayout style="@style/DetailRowStyle">
+                    <TextView style="@style/DetailLabel" android:text="ID Contrato:" />
+                    <TextView android:id="@+id/tvContratoId" style="@style/DetailValue" tools:text="6" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/DetailRowStyle">
+                    <TextView style="@style/DetailLabel" android:text="Fecha Inicio:" />
+                    <TextView android:id="@+id/tvFechaInicio" style="@style/DetailValue" tools:text="01/08/2025" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/DetailRowStyle">
+                    <TextView style="@style/DetailLabel" android:text="Fecha Fin:" />
+                    <TextView android:id="@+id/tvFechaFin" style="@style/DetailValue" tools:text="01/08/2028" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/DetailRowStyle">
+                    <TextView style="@style/DetailLabel" android:text="Monto Mensual:" />
+                    <TextView android:id="@+id/tvMontoAlquiler" style="@style/DetailValue" tools:text="$23.00" android:textStyle="bold" android:textColor="#4CAF50"/>
+                </LinearLayout>
+
+                <LinearLayout style="@style/DetailRowStyle">
+                    <TextView style="@style/DetailLabel" android:text="Estado:" />
+                    <TextView android:id="@+id/tvEstado" style="@style/DetailValue" tools:text="Vigente" android:textStyle="bold"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- SECCIÓN DETALLE DEL INQUILINO -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            android:layout_marginBottom="30dp"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Datos del Inquilino"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#007AFF"
+                    android:layout_marginBottom="12dp"/>
+
+                <LinearLayout style="@style/DetailRowStyle">
+                    <TextView style="@style/DetailLabel" android:text="Nombre:" />
+                    <TextView android:id="@+id/tvInquilinoNombre" style="@style/DetailValue" tools:text="Pepe Funes" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/DetailRowStyle">
+                    <TextView style="@style/DetailLabel" android:text="DNI:" />
+                    <TextView android:id="@+id/tvInquilinoDni" style="@style/DetailValue" tools:text="12345" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/DetailRowStyle">
+                    <TextView style="@style/DetailLabel" android:text="Teléfono:" />
+                    <TextView android:id="@+id/tvInquilinoTelefono" style="@style/DetailValue" tools:text="987653343" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/DetailRowStyle">
+                    <TextView style="@style/DetailLabel" android:text="Email:" />
+                    <TextView android:id="@+id/tvInquilinoEmail" style="@style/DetailValue" tools:text="ale@gmail.com" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- BOTÓN VER PAGOS -->
+        <Button
+            android:id="@+id/btnVerPagos"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="VER HISTORIAL DE PAGOS"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:enabled="false"
+            android:backgroundTint="@color/blue_primary"
+            android:textColor="@color/white"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+</ScrollView>

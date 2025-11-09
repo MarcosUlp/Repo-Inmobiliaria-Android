@@ -1,7 +1,9 @@
 package com.example.practicoinmobiliariaandroid.data.api;
 
 
+import com.example.practicoinmobiliariaandroid.data.model.Contrato;
 import com.example.practicoinmobiliariaandroid.data.model.Inmueble;
+import com.example.practicoinmobiliariaandroid.data.model.Pago;
 import com.example.practicoinmobiliariaandroid.data.model.Propietario;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,6 +25,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public class ApiClient {
     //aca vamos a configurar la conexion a la api
@@ -39,7 +42,7 @@ public class ApiClient {
                 .create();
 
                  retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BASE_URL + "/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -92,17 +95,11 @@ public class ApiClient {
                 @Header("Authorization") String token
         );
 
-        //obtener inmueble con contrato vigente
-        @GET("/api/Inmuebles/GetContratoVigente")
-        Call<List<Inmueble>>getInmuebleContratoVigente(
-                @Header("Authorization") String token
-        );
-
         //Cargar inmueble (Con imagen)
         @Multipart
         @POST("/api/Inmuebles/cargar")
-        Call<List<Inmueble>>createInmueble(
-                @Header("token") String token,
+        Call<Inmueble>createInmueble(
+                @Header("Authorization") String token,
                 @Part MultipartBody.Part imagen,
                 @Part("inmueble")RequestBody inmuebleJson
                 //La respuesta es ´Inmueble´ no es una lista
@@ -115,19 +112,25 @@ public class ApiClient {
                 @Body Inmueble inmueble
         );
 
-//        @GET("api/contratos/inmueble/{id}")
-//        Call<Contrato> getContratoPorInmueble(
-//                @Header("Authorization") String token, // Asumiendo que pasarás "Bearer <tu_token>"
-//                @Path("id") int idInmueble // El ID del inmueble
-//        );
+        //obtener inmueble con contrato vigente
+        @GET("/api/Inmuebles/GetContratoVigente")
+        Call<List<Inmueble>>getInmuebleContratoVigente(
+                @Header("Authorization") String token
+        );
 
-//        // Obtener Pagos por Contrato
+        @GET("api/contratos/inmueble/{id}")
+        Call<Contrato> getContratoPorInmueble(
+                @Header("Authorization") String token, // Asumiendo que pasarás "Bearer <tu_token>"
+                @Path("id") int idInmueble // El ID del inmueble
+        );
 
-//        @GET("api/pagos/contrato/{id}")
-//        Call<List<Pago>> getPagosPorContrato(
-//                @Header("Authorization") String token, // Asumiendo que pasarás "Bearer <tu_token>"
-//                @Path("id") int idContrato // El ID del contrato
-//        );
+        // Obtener Pagos por Contrato
+
+        @GET("api/pagos/contrato/{id}")
+        Call<List<Pago>> getPagosPorContrato(
+                @Header("Authorization") String token, // Asumiendo que pasarás "Bearer <tu_token>"
+                @Path("id") int idContrato // El ID del contrato
+        );
     }
 
 }

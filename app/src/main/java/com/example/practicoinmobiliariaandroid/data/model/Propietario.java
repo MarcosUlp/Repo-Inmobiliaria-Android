@@ -1,9 +1,13 @@
 package com.example.practicoinmobiliariaandroid.data.model;
 
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Propietario implements Serializable {
+
+    @SerializedName("idPropietario") // 👈 esto lo alinea con el backend
     private int id;
+
     private String nombre;
     private String apellido;
     private String dni;
@@ -11,16 +15,13 @@ public class Propietario implements Serializable {
     private String email;
     private String clave;
 
-    // Constructor vacío (necesario para GSON)
     public Propietario() {}
 
-    // Constructor para Login
     public Propietario(String email, String clave) {
         this.email = email;
         this.clave = clave;
     }
 
-    // ✨ CONSTRUCTOR COMPLETO para crear el objeto con los datos editados
     public Propietario(int id, String nombre, String apellido, String dni, String telefono, String email, String clave) {
         this.id = id;
         this.nombre = nombre;
@@ -28,7 +29,7 @@ public class Propietario implements Serializable {
         this.dni = dni;
         this.telefono = telefono;
         this.email = email;
-        this.clave = clave; // se incluye para completar el objeto
+        this.clave = clave;
     }
 
     public Propietario(int id, String nombre, String apellido, String dni, String telefono, String email) {

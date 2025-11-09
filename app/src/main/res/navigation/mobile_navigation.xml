@@ -23,23 +23,65 @@
         android:label="@string/menu_inquilinos"
         tools:layout="@layout/fragment_slideshow" />
 
-    <!-- FRAGMENTO DE INMUEBLE VINCULADO -->
+    <!-- Fragmento de Listado de Inmuebles (todos) -->
     <fragment
         android:id="@+id/nav_inmueble"
         android:name="com.example.practicoinmobiliariaandroid.ui.inmuebles.InmuebleFragment"
         android:label="@string/menu_inmuebles"
         tools:layout="@layout/fragment_inmueble" />
+
+    <!-- Fragmento de Agregar Nuevo Inmueble -->
+    <fragment
+        android:id="@+id/nav_agregar_inmueble"
+        android:name="com.example.practicoinmobiliariaandroid.ui.inmuebles.NuevoInmuebleFragment"
+        android:label="@string/menu_agregar_inmueble"
+        tools:layout="@layout/fragment_nuevo_inmueble" />
+
+    <!-- Fragmento de Detalle de Inmueble (Editar Disponibilidad) -->
     <fragment
         android:id="@+id/nav_detalle_inmueble"
         android:name="com.example.practicoinmobiliariaandroid.ui.inmuebles.DetalleInmuebleFragment"
         android:label="Detalle del Inmueble"
         tools:layout="@layout/fragment_detalle_inmueble">
-
         <argument
             android:name="inmuebleData"
             app:argType="com.example.practicoinmobiliariaandroid.data.model.Inmueble"
             app:nullable="false" />
+    </fragment>
 
-    </fragment>F
+    <!-- ============================================== -->
+    <!--  MÓDULO CONTRATOS (Requisito de Entrega Final)  -->
+    <!-- ============================================== -->
+
+    <!-- 1. Listado de Inmuebles con Contrato Vigente -->
+    <fragment
+        android:id="@+id/nav_contratos"
+        android:name="com.example.practicoinmobiliariaandroid.ui.contratos.ContratosVigentesFragment"
+        android:label="@string/menu_Contratos"
+        tools:layout="@layout/fragment_contratos_vigentes" />
+
+    <!-- 2. Detalle del Contrato (Recibe idInmueble, busca Contrato) -->
+    <fragment
+        android:id="@+id/nav_detalle_contrato"
+        android:name="com.example.practicoinmobiliariaandroid.ui.contratos.DetalleContratoFragment"
+        android:label="Detalle del Contrato"
+        tools:layout="@layout/fragment_detalle_contrato">
+        <argument
+            android:name="idInmueble"
+            app:argType="integer"
+            app:nullable="false" />
+    </fragment>
+
+    <!-- 3. Listado de Pagos (Recibe idContrato) -->
+    <fragment
+        android:id="@+id/nav_pagos"
+        android:name="com.example.practicoinmobiliariaandroid.ui.contratos.PagosFragment"
+        android:label="Pagos del Contrato"
+        tools:layout="@layout/fragment_pagos">
+        <argument
+            android:name="idContrato"
+            app:argType="integer"
+            app:nullable="false" />
+    </fragment>
 
 </navigation>
