@@ -8,18 +8,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.practicoinmobiliariaandroid.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private HomeViewModel viewModel; // Nueva declaración
 
     @Nullable
     @Override
@@ -27,15 +28,17 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        // Infla el layout que contiene el mapa
+        // Inicializar ViewModel
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
+        // Inflar el layout
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Obtiene el SupportMapFragment (es el elemento clave para mostrar Google Maps)
+        // Obtener el SupportMapFragment y llamar al callback
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map_home);
 
         if (mapFragment != null) {
-            // Llama al callback cuando el mapa esté listo
             mapFragment.getMapAsync(this);
         }
 
@@ -46,19 +49,19 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        //  COORDENADAS (Sede central de la ULP)
-        double latitud = -33.1506;
-        double longitud = -66.3090;
-        float zoomLevel = 16.0f;
+        // 1. Observar los datos del marcador y el zoom del ViewModel
+        viewModel.getMarkerOptions().observe(getViewLifecycleOwner(), markerOptions -> {
+            if (markerOptions != null) {
+                // 1a. Agregar el marcador
+                mMap.addMarker(markerOptions);
+            }
+        });
 
-        LatLng ubicacionFija = new LatLng(latitud, longitud);
-
-        // 1. Agregar el marcador
-        mMap.addMarker(new MarkerOptions()
-                .position(ubicacionFija)
-                .title("Ubicación de Inmueble Hardcodeada"));
-
-        // 2. Mover la cámara al marcador
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionFija, zoomLevel));
+        viewModel.getZoomLevel().observe(getViewLifecycleOwner(), zoomLevel -> {
+            if (viewModel.getMarkerOptions().getValue() != null) {
+                // 1b. Mover la cámara a la posición (debe ejecutarse después del marcador)
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(viewModel.getMarkerOptions().getValue().getPosition(), zoomLevel));
+            }
+        });
     }
 }

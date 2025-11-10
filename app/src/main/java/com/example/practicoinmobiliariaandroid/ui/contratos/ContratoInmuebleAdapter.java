@@ -12,17 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.practicoinmobiliariaandroid.R;
+import com.example.practicoinmobiliariaandroid.data.api.ApiClient; // IMPORTADO
 import com.example.practicoinmobiliariaandroid.data.model.Inmueble;
 
 import java.util.List;
-
+//en esta clase adaptamos la lista de inmuebles a las tarjetas del RecyclerView.
+//
 public class ContratoInmuebleAdapter extends RecyclerView.Adapter<ContratoInmuebleAdapter.ContratoInmuebleViewHolder> {
     private final List<Inmueble> lista;
     private final Context context;
     private final ContratosVigentesFragment fragment; // Referencia al fragmento para el click
 
-    // URL Base para las imágenes (necesaria para Glide)
-    private static final String URL_BASE = "https://inmobiliariaulp-amb5hwfqaraweyga.canadacentral-01.azurewebsites.net";
+    // ❌ ELIMINADO: private static final String URL_BASE = "https://inmobiliariaulp-amb5hwfqaraweyga.canadacentral-01.azurewebsites.net";
 
     public ContratoInmuebleAdapter(List<Inmueble> lista, Context context, ContratosVigentesFragment fragment) {
         this.lista = lista;
@@ -53,7 +54,13 @@ public class ContratoInmuebleAdapter extends RecyclerView.Adapter<ContratoInmueb
         // Manejo de la URL de la imagen (corregido el problema de los backslashes)
         if (i.getImagen() != null && !i.getImagen().isEmpty()) {
             String relativePath = i.getImagen().replace("\\", "/");
-            String imageUrl = i.getImagen().startsWith("http") ? i.getImagen() : URL_BASE + "/" + relativePath;
+
+            // ✨ CAMBIO CLAVE: Usar el método centralizado y asegurar la barra diagonal
+            String baseUrl = ApiClient.getBaseUrl();
+            if (!baseUrl.endsWith("/")) {
+                baseUrl += "/";
+            }
+            String imageUrl = i.getImagen().startsWith("http") ? i.getImagen() : baseUrl + relativePath;
 
             Glide.with(context)
                     .load(imageUrl)

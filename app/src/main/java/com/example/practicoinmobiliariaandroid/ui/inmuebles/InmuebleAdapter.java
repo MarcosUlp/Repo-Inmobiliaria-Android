@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.practicoinmobiliariaandroid.R;
+import com.example.practicoinmobiliariaandroid.data.api.ApiClient; // IMPORTADO
 import com.example.practicoinmobiliariaandroid.data.model.Inmueble;
 
 import java.util.List;
@@ -23,8 +24,7 @@ public class InmuebleAdapter extends RecyclerView.Adapter<InmuebleAdapter.Inmueb
     private List<Inmueble> lista;
     private Context context;
 
-    // URL base del backend
-    private static final String URL_BASE = "https://inmobiliariaulp-amb5hwfqaraweyga.canadacentral-01.azurewebsites.net/";
+    // ❌ ELIMINADO: private static final String URL_BASE = "https://inmobiliariaulp-amb5hwfqaraweyga.canadacentral-01.azurewebsites.net/";
 
     public InmuebleAdapter(List<Inmueble> lista, Context context) {
         this.lista = lista;
@@ -47,7 +47,7 @@ public class InmuebleAdapter extends RecyclerView.Adapter<InmuebleAdapter.Inmueb
         holder.tvTipo.setText(i.getTipo());
         holder.tvPrecio.setText("$" + String.valueOf(i.getValor()));
 
-        // ✅ Normalizar URL de imagen (idéntico al detalle)
+        // ✅ Normalizar URL de imagen
         String imageUrl = null;
         if (i.getImagen() != null && !i.getImagen().isEmpty()) {
             // 1. Reemplazar '\' por '/'
@@ -58,7 +58,10 @@ public class InmuebleAdapter extends RecyclerView.Adapter<InmuebleAdapter.Inmueb
                 imageUrl = relativePath;
             } else {
                 // Asegurar que la base tenga '/' al final
-                String baseUrl = URL_BASE.endsWith("/") ? URL_BASE : URL_BASE + "/";
+                String baseUrl = ApiClient.getBaseUrl(); // USANDO EL MÉTODO CENTRALIZADO
+                if (!baseUrl.endsWith("/")) {
+                    baseUrl += "/";
+                }
                 imageUrl = baseUrl + relativePath;
             }
         }

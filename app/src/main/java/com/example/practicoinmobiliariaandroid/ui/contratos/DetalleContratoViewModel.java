@@ -9,7 +9,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.practicoinmobiliariaandroid.data.model.Contrato;
 import com.example.practicoinmobiliariaandroid.data.repository.ContratoRepository;
-
+// aqui solamente recibimos el idInmueble y usamos el repo de contrato para buscar el objeto completo
+// exponemos con livedata
 public class DetalleContratoViewModel extends AndroidViewModel {
     private final ContratoRepository repository;
     private final MutableLiveData<Contrato> contratoLiveData = new MutableLiveData<>();

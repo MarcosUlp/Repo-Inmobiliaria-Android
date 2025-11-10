@@ -24,7 +24,8 @@ public class DetalleContratoFragment extends Fragment {
     private FragmentDetalleContratoBinding binding;
     private DetalleContratoViewModel viewModel;
     private int currentIdContrato = -1;
-
+    //a continuacion vamos a recibir el idinmueble, observar al contrato del viewmodel y actualiazar la ui
+    //fecha monto y algunos datos del inquilino
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

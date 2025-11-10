@@ -16,7 +16,7 @@ public class PagosViewModel extends AndroidViewModel {
 
     private final ContratoRepository repository;
     private final MutableLiveData<List<Pago>> pagosLiveData = new MutableLiveData<>();
-
+//aca recibimos idContrato y usamos el repo para obtener la lista de pagos a un contrato en especifico
     public PagosViewModel(@NonNull Application application) {
         super(application);
         this.repository = new ContratoRepository(application.getApplicationContext());

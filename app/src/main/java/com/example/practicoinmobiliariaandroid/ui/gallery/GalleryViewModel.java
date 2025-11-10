@@ -46,10 +46,35 @@ public class GalleryViewModel extends AndroidViewModel {
     }
 
     // ---------------------------------------------------
-    // Guardar cambios en el perfil
+    // Guardar cambios en el perfil (NUEVA FIRMA)
     // ---------------------------------------------------
-    public void saveProfile(Propietario propietario) {
-        repository.updateProfile(propietario, new ProfileRepository.ProfileCallback() {
+    public void saveProfile(int id, String nombre, String apellido, String telefono) {
+
+        // 1. Validaciones de datos (Lógica en el ViewModel)
+        if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty()) {
+            Toast.makeText(getApplication(), "Nombre, Apellido y Teléfono no pueden estar vacíos.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Propietario currentPropietario = propietarioLiveData.getValue();
+        if (currentPropietario == null) {
+            Toast.makeText(getApplication(), "Error interno al obtener datos de perfil.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 2. Construir el objeto Propietario (Lógica del Modelo/ViewModel)
+        Propietario updatedPropietario = new Propietario(
+                id,
+                nombre,
+                apellido,
+                currentPropietario.getDni(),
+                telefono,
+                currentPropietario.getEmail(),
+                currentPropietario.getClave() // Aseguramos que la clave se mantenga si es necesaria para la petición
+        );
+
+        // 3. Llamar al Repository
+        repository.updateProfile(updatedPropietario, new ProfileRepository.ProfileCallback() {
             @Override
             public void onSuccess(Propietario propietarioActualizado) {
                 propietarioLiveData.postValue(propietarioActualizado);

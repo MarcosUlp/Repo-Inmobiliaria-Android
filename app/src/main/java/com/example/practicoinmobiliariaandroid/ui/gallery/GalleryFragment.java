@@ -107,18 +107,15 @@ public class GalleryFragment extends Fragment {
         String apellido = binding.etApellido.getText().toString().trim();
         String telefono = binding.etTelefono.getText().toString().trim();
 
-        // Crear nuevo objeto propietario conbinando los datos editables con los inmutables
-        Propietario updatedPropietario = new Propietario(
+        // ❌ ELIMINADO: Construcción del objeto Propietario
+
+        // ✅ Lógica del Fragment: Solo pasar los datos brutos al ViewModel
+        viewModel.saveProfile(
                 currentPropietario.getId(),
                 nombre,
                 apellido,
-                currentPropietario.getDni(),
-                telefono,
-                currentPropietario.getEmail()
+                telefono
         );
-
-        // Manda el "nuevo" propietario para el viewModel
-        viewModel.saveProfile(updatedPropietario);
     }
 
     @Override
@@ -127,3 +124,4 @@ public class GalleryFragment extends Fragment {
         binding = null;
     }
 }
+

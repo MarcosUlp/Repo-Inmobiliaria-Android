@@ -9,53 +9,39 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.example.practicoinmobiliariaandroid.data.api.ApiClient;
 import com.example.practicoinmobiliariaandroid.data.model.Inmueble;
+import com.example.practicoinmobiliariaandroid.data.model.Propietario; // Importado
+import com.example.practicoinmobiliariaandroid.data.repository.InmuebleRepository; // Nuevo Repository
 import com.example.practicoinmobiliariaandroid.utils.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+// ... (Imports omitidos)
 
 public class DetalleInmuebleViewModel extends AndroidViewModel {
 
-    private final ApiClient.ApiService apiService;
-    private final SessionManager sessionManager;
+    // Reemplazamos ApiService por el Repository
+    private final InmuebleRepository repository;
     private static final String TAG = "DetalleInmuebleVM";
 
     public DetalleInmuebleViewModel(@NonNull Application application) {
         super(application);
-        this.apiService = ApiClient.getClient();
-        this.sessionManager = new SessionManager(application.getApplicationContext());
+        // Inicialización con el nuevo Repository
+        this.repository = new InmuebleRepository(application.getApplicationContext());
     }
 
     public void updateInmuebleStatus(Inmueble inmueble) {
-        String token = sessionManager.getToken();
 
-        if (token == null || token.isEmpty()) {
-            Toast.makeText(getApplication(), "Error de autenticación. Inicie sesión nuevamente.", Toast.LENGTH_LONG).show();
-            return;
-        }
+        // El Fragment pasa el objeto actualizado, ahora el ViewModel prepara el objeto para la API
 
-        Inmueble req = new Inmueble();
+        // 1. Clonar el objeto para la request (para evitar modificar el LiveData antes de tiempo)
+        Inmueble req = new Inmueble(inmueble.getIdInmueble());
 
-        // Copiá los campos que el backend necesita (evitá campos problemáticos como 'clave')
-        req.setIdInmueble(inmueble.getIdInmueble());
+        // 2. Copiar todos los campos necesarios. Es más seguro pasar el ID.
         req.setDireccion(inmueble.getDireccion());
         req.setUso(inmueble.getUso());
         req.setTipo(inmueble.getTipo());
         req.setAmbientes(inmueble.getAmbientes());
-        //estuve teniendo problemas me decia que habia un campo invalido(ya solucionado)
-        try {
-            // Si tu modelo actual devuelve double, castealo a int
-            // Si ya es int, esto no cambia nada
-            int superficieInt = (int) Math.round(inmueble.getSuperficie());
-            req.setSuperficie(superficieInt);
-        } catch (Exception e) {
-            // Fallback seguro
-            req.setSuperficie(inmueble.getSuperficie()); // si el setter acepta int esto compila; si no, adaptá.
-        }
-
+        req.setSuperficie(inmueble.getSuperficie());
         req.setLatitud(inmueble.getLatitud());
         req.setLongitud(inmueble.getLongitud());
         req.setValor(inmueble.getValor());
@@ -63,36 +49,28 @@ public class DetalleInmuebleViewModel extends AndroidViewModel {
         req.setDisponible(inmueble.isDisponible());
         req.setIdPropietario(inmueble.getIdPropietario());
 
-        // Reconstruir DUENIO mínimo (el backend pide objeto, no null)
-        com.example.practicoinmobiliariaandroid.data.model.Propietario duenio = new com.example.practicoinmobiliariaandroid.data.model.Propietario();
-        duenio.setId(inmueble.getIdPropietario()); // solo el id es suficiente
-        req.setDuenio(duenio);
+        // 3. Solución de compatibilidad API (mantenida en el ViewModel/Capa de Lógica)
+        Propietario duenio = new Propietario();
+        duenio.setId(inmueble.getIdPropietario());
+        req.setDuenio(duenio); // Solo el ID es suficiente para la validación
 
         // Loggear el JSON que vamos a enviar (útil para confirmar)
-        String jsonAEnviar = new com.google.gson.GsonBuilder().setPrettyPrinting().create().toJson(req);
+        String jsonAEnviar = new GsonBuilder().setPrettyPrinting().create().toJson(req);
         Log.d(TAG, "JSON que voy a enviar al PUT:\n" + jsonAEnviar);
 
-        // Llamada retrofit
-        apiService.updateInmueble("Bearer " + token, req).enqueue(new Callback<Inmueble>() {
+        // 4. Llamar al Repository
+        repository.updateInmuebleStatus(req, new InmuebleRepository.InmuebleUpdateCallback() {
             @Override
-            public void onResponse(Call<Inmueble> call, Response<Inmueble> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    String status = response.body().isDisponible() ? "habilitado" : "deshabilitado";
-                    Toast.makeText(getApplication(), "Inmueble " + status + " correctamente.", Toast.LENGTH_SHORT).show();
-                } else {
-                    try {
-                        String error = response.errorBody() != null ? response.errorBody().string() : "errorBody null";
-                        Log.e(TAG, "Error al actualizar inmueble: code=" + response.code() + " bodyError=" + error);
-                        Toast.makeText(getApplication(), "Error al actualizar (código " + response.code() + ")", Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        Log.e(TAG, "No pude leer errorBody", e);
-                    }
-                }
+            public void onSuccess(Inmueble inmuebleActualizado) {
+                String status = inmuebleActualizado.isDisponible() ? "habilitado" : "deshabilitado";
+                Toast.makeText(getApplication(), "Inmueble " + status + " correctamente.", Toast.LENGTH_SHORT).show();
+                // Opcional: actualizar LiveData si existiera una en este VM
             }
+
             @Override
-            public void onFailure(Call<Inmueble> call, Throwable t) {
-                Log.e(TAG, "Fallo de conexión al actualizar inmueble", t);
-                Toast.makeText(getApplication(), "Fallo de conexión: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onError(String error) {
+                Log.e(TAG, "Error al actualizar inmueble: " + error);
+                Toast.makeText(getApplication(), "Error al actualizar: " + error, Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -17,12 +17,12 @@ import com.example.practicoinmobiliariaandroid.data.model.Inmueble;
 import com.example.practicoinmobiliariaandroid.databinding.FragmentContratosVigentesBinding;
 
 import java.util.List;
-
 public class ContratosVigentesFragment extends Fragment {
 
     private FragmentContratosVigentesBinding binding;
     private ContratosVigentesViewModel vm;
-
+    //con esta clase mostramos el recyclerView, observamos el viewmodel y al hacer click en una tarjeta
+    //navegamos al detalle pasando el id del inmueble
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 

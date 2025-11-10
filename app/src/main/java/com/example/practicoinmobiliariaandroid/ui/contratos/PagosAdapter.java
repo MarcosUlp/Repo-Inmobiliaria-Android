@@ -24,7 +24,8 @@ public class PagosAdapter extends RecyclerView.Adapter<PagosAdapter.PagoViewHold
         this.lista = lista;
         this.context = context;
     }
-
+    //adapta la lista de pago a la tarjeta de pago (pago_card.xml) contiene logica para mostrar estado como
+    //registrado o pendiente con colores
     @NonNull
     @Override
     public PagoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

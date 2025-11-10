@@ -31,7 +31,9 @@ public class ApiClient {
     //aca vamos a configurar la conexion a la api
     private static final String BASE_URL = "https://inmobiliariaulp-amb5hwfqaraweyga.canadacentral-01.azurewebsites.net";
     private static Retrofit retrofit;
-
+    public static String getBaseUrl() {
+        return BASE_URL;
+    }
     //constructor: al implementar "static" hace que puedas llamar al metodo directamente con (apiClient.getClient)
     //sin necesidad de crear un objeto ApiClient
     //get client metodo estatico que utiliza patron Singleton
@@ -74,7 +76,6 @@ public class ApiClient {
                 @Body Propietario propietario
         );
 
-        // --- CAMBIO DE CLAVE/RESET ---
         @FormUrlEncoded
         @PUT("api/Propietarios/changePassword")
         Call<Void> changePassword(
@@ -89,7 +90,6 @@ public class ApiClient {
                 @Field("email") String email
         );
 
-        //Obtener todos inmuebles
         @GET("/api/Inmuebles")
         Call<List<Inmueble>>getInmueble(
                 @Header("Authorization") String token

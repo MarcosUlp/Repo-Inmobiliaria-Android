@@ -22,7 +22,7 @@ public class PagosFragment extends Fragment {
 
     private FragmentPagosBinding binding;
     private PagosViewModel viewModel;
-
+//recibimos el idContrato como argumento y mostramos recyclerView con historia depagos
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
